@@ -9,51 +9,59 @@ import anvil.server
 
 import json
 import copy
-
+from operator import itemgetter
 
 class FilterFactory:
-    # Shared list between all instances (full dataset)
-    _shared_list = []
-    _filtered_shared_list = None
+    def __init__(self, all_lists):
+        # Download the data from the given URL and store it in all_lists
+        self.all_lists = all_lists
+        self.filtered_list = sorted(self.all_lists, key=itemgetter(0))
 
-    @classmethod
-    def set_shared_list(cls, data):
-        # Set the initial shared list and make a copy for filtering
-        cls._shared_list = sorted(data, key=lambda x: x[0])
-        cls._filtered_shared_list = copy.deepcopy(cls._shared_list)
+    def filter_list(self, filter_criteria):
+        """
+        Filter the list based on a given list of dictionary criteria [{index: [value1, value2, ...]}].
+        """
+        filtered = self.all_lists
+        for criterion in filter_criteria:
+            for key, values in criterion.items():
+                if values:  # If values list is not empty, filter by those values
+                    filtered = [item for item in filtered if item[key] in values]
+        self.filtered_list = sorted(filtered, key=itemgetter(0))
 
-    @classmethod
-    def reset_filters(cls):
-        # Resets the filtered shared list to the original shared list
-        cls._filtered_shared_list = copy.deepcopy(cls._shared_list)
-
-    @classmethod
-    def apply_filter(cls, filter_index, filter_value):
-        # Apply the filter based on the index and value provided
-        if cls._filtered_shared_list is not None:
-            cls._filtered_shared_list = [
-                item for item in cls._filtered_shared_list
-                if item[filter_index] == filter_value
-            ]
-            cls._filtered_shared_list = sorted(cls._filtered_shared_list, key=lambda x: x[filter_index])
-
-    @classmethod
-    def filtered_items(cls, filter_index, filter_value):
-        # Get items that match the given filter without affecting shared state
-        filtered = [
-            item for item in cls._shared_list
-            if item[filter_index] == filter_value
-        ]
-        return sorted(filtered, key=lambda x: x[filter_index])
-
-    @classmethod
-    def available_options(cls, index):
-        # Get unique values for the given index in the shared list
-        if not cls._shared_list:
-            return []
-        options = list(set(item[index] for item in cls._shared_list if len(item) > index))
-        return sorted(options)
+    def get_available_values(self, index):
+        """
+        Return the available values for the given index from the filtered_list.
+        """
+        return sorted(set(item[index] for item in self.filtered_list))
 
 
 
+def list_of_lists_to_dicts(keys, list_of_lists, indexes_of_interest):
+    """
+    Convert a list of lists to a list of dictionaries.
 
+    Parameters:
+    keys (list): A list of keys for the dictionaries.
+    list_of_lists (list of lists): A list containing sublists, which have values for the dictionaries.
+    indexes_of_interest (list): A list of indexes from the sublists to be used as values.
+
+    Returns:
+    list of dicts: A list containing dictionaries constructed from the given keys and values.
+
+    # Example usage
+    keys = ["name", "age"]
+    list_of_lists = [["Alice", 25, "Engineer"], ["Bob", 30, "Designer"], ["Charlie", 22, "Doctor"]]
+    indexes_of_interest = [0, 1]
+    
+    result = list_of_lists_to_dicts(keys, list_of_lists, indexes_of_interest)
+    print(result)
+    # Output: [{'name': 'Alice', 'age': 25}, {'name': 'Bob', 'age': 30}, {'name': 'Charlie', 'age': 22}]
+
+    
+    """
+    list_of_dicts = []
+    for sublist in list_of_lists:
+        selected_values = [sublist[i] for i in indexes_of_interest]
+        dictionary = dict(zip(keys, selected_values))
+        list_of_dicts.append(dictionary)
+    return list_of_dicts
