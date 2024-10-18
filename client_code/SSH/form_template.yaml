@@ -1,3 +1,34 @@
-components: []
+components:
+- data_bindings:
+  - {code: self.groups, property: items, writeback: false}
+  event_bindings: {closed: group_multidropdown_change}
+  layout_properties: {grid_position: 'JTWJAZ,LKPKQZ'}
+  name: group_multidropdown
+  properties:
+    enable_filtering: true
+    enable_select_all: true
+    items: [self.groups]
+  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+- data_bindings:
+  - {code: self.sites, property: items, writeback: false}
+  layout_properties: {grid_position: 'XDWVHJ,KRAQCJ'}
+  name: sites_multidropdownmenu
+  properties:
+    items: [self.sites]
+  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+- data_bindings:
+  - {code: self.vendors, property: items, writeback: false}
+  layout_properties: {grid_position: 'WKWZYE,OXGZMT'}
+  name: vendor_multidropdownmenu
+  properties:
+    items: [self.vendors]
+  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+- data_bindings:
+  - {code: self.types, property: items, writeback: false}
+  layout_properties: {grid_position: 'NMEZJJ,ZBFTNY'}
+  name: types_multidropdownmulti
+  properties:
+    items: [self.types]
+  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
 container: {type: ColumnPanel}
 is_package: true
