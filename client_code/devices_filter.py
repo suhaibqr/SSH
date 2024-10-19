@@ -43,6 +43,45 @@ class FilterFactory:
         return sorted(set(item[index] for item in self.filtered_list))
 
 
+    def filter_and_get_available_values(self, filter_criteria):
+        """
+        This method filters the list like 'filter_list', but also returns the available values
+        for each index (key) in the filter criteria.
+        
+        :param filter_criteria: A list of dictionaries [{index: [value1, value2, ...]}].
+        :return: A dictionary where each key (index) contains the available unique values after filtering.
+        """
+        # Apply the same filtering logic
+        filtered = self.all_lists
+        for criterion in filter_criteria:
+            for key, values in criterion.items():
+                if values:  # If values list is not empty, filter by those values
+                    filtered = [item for item in filtered if item[key] in values]
+
+        # Sort the filtered list by the first index (like in filter_list)
+        self.filtered_list = sorted(filtered, key=itemgetter(0))
+
+        # Create a dictionary to store the available values for each key (index) in the filter_criteria
+        available_values = {}
+        for criterion in filter_criteria:
+            for key in criterion.keys():
+                # Get the unique values for the given index (key) from the filtered_list
+                available_values[key] = sorted(set(item[key] for item in self.filtered_list))
+        return available_values[3], available_values[4], available_values[10]
+
+  def get_available_values_for_indexes(self, indexes):
+      """
+      Return the available values for a list of indexes from the filtered_list.
+  
+      :param indexes: List of indexes to check.
+      :return: A dictionary where each index contains the available unique values after filtering.
+      """
+      available_values = {}
+      for index in indexes:
+          # Get the unique values for the given index from the filtered_list
+          available_values[index] = sorted(set(item[index] for item in self.filtered_list))
+  
+      return available_values
 
 def list_of_lists_to_dicts(keys, list_of_lists, indexes_of_interest):
     """

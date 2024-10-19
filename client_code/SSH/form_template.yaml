@@ -135,16 +135,19 @@ components:
     properties: {}
     type: ColumnPanel
   - components:
-    - event_bindings: {change: devices_table_search_text_change}
+    - event_bindings: {pressed_enter: devices_table_search_text_change}
       layout_properties: {width: 251}
       name: devices_table_search_text
       properties: {placeholder: Search Keywords Seprated by Space}
       type: TextBox
     - layout_properties: {}
       name: rich_text_1
-      properties: {content: Enter Keywords Seperated By Space}
+      properties:
+        content: |-
+          Keywords Seperated By Space|
+          Press ENTER to trigger search
       type: RichText
-    layout_properties: {grid_position: 'NXSVXL,QWZGMD'}
+    layout_properties: {grid_position: 'IKIPET,HWSPKP'}
     name: flow_panel_1
     properties: {}
     type: FlowPanel

@@ -34,9 +34,18 @@ class SSH(SSHTemplate):
     self.ssh_manual_username_txt = "Username"
     self.ssh_manual_port_txt = 22
 
-    self.types = filter_factory.get_available_values(3)
-    self.vendors = filter_factory.get_available_values(4)
-    self.groups = filter_factory.get_available_values(10)
+
+
+
+
+    self.types, self.vendors, self.groups = filter_factory.get_available_values_for_indexes([3,4,10])
+    # self.types = filter_factory.get_available_values(3)
+    # self.vendors = filter_factory.get_available_values(4)
+    # self.groups = filter_factory.get_available_values(10)
+
+
+
+    
     self.keys = ["hostname", "address", "customer", "type","account_list"]
     self.indexes_of_interest = [0,2,10,3,11]
     self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
@@ -66,17 +75,20 @@ class SSH(SSHTemplate):
     g = self.groups_multidropdown.selected
     t = self.types_multidropdown.selected
     v = self.vendors_multidropdown.selected
-    # s = self.sites_multidropdownmulti.selected
-    filter_factory.filter_list([{3:t}, {4:v}, {10:g}])
-    self.types = filter_factory.get_available_values(3)
-    self.vendors = filter_factory.get_available_values(4)
-    self.groups = filter_factory.get_available_values(10)
+   
+    self.types, self.vendors , self.groups = filter_factory.filter_and_get_available_values([{3:t}, {4:v}, {10:g}])
+     
+    # filter_factory.filter_list([{3:t}, {4:v}, {10:g}])
+    # self.types = filter_factory.get_available_values(3)
+    # self.vendors = filter_factory.get_available_values(4)
+    # self.groups = filter_factory.get_available_values(10)
+    
     if self.devices_table_search_text.text != "":
       filter_factory.filtered_list = filter_list_of_lists_by_strings(filter_factory.filtered_list, self.devices_table_search_text.text)
     self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
     self.refresh_data_bindings()
     self.color_rows(self.devices_repeatingpanel)
-    return 
+ 
 
   def RESET_FILTER_click(self, **event_args):
     """This method is called when the button is clicked"""
