@@ -15,6 +15,10 @@ import json
 import copy
 from operator import itemgetter
 
+
+wssh_url = "http://10.215.10.215:8888/"
+
+
 class FilterFactory:
     def __init__(self, all_lists):
         # Download the data from the given URL and store it in all_lists
@@ -87,3 +91,36 @@ def filter_list_of_lists_by_strings(list_of_lists, strings_to_match):
         if any(any(word in str(item).lower() for word in words_to_match) for item in sublist):
             filtered_list.append(sublist)
     return filtered_list
+
+def check_if_pmp(data, search_value):
+    """
+    Check if search_value matches the first item of each list (case insensitive) and
+    if the individual list has any truthy value at index 11.
+    
+    Args:
+        data (List[List]): A list of lists to check.
+        search_value (str): The value to search for in the first item of each list.
+
+    Returns:
+        bool: True if an individual list matches the search value and has a truthy value at index 11.
+    """
+    for sublist in data:
+      # print(sublist[11])
+      if (sublist[5].lower() == search_value.lower() or sublist[0].lower() == search_value.lower()) and (sublist[11] != "None" or sublist[5] is not None):
+        # print(sublist[11])
+        return True
+    return False
+
+
+
+def wssh_connect(**args):
+  url = f"{wssh_url}?hostname={args['sender'].tag.hostname}&username=PMP&password=PMP"
+  anvil.js.window.open(url, "_blank")
+
+def manual_connect(**args):
+  f = anvil.get_open_form()
+  f.manual_hostname_label.text = args['sender'].tag.hostname
+  f.ssh_manual_address.text = args['sender'].tag.address
+  f.ssh_manual_password.text = ""   
+  f.ssh_manual_username.text = ""
+  anvil.js.window.scrollTo(0, 0)

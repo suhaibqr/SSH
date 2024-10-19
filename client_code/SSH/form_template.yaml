@@ -1,6 +1,7 @@
 components:
 - components:
-  - layout_properties: {grid_position: 'RAFMVA,RJIAED'}
+  - event_bindings: {click: Authenticate_click}
+    layout_properties: {grid_position: 'RAFMVA,RJIAED'}
     name: Authenticate
     properties: {text: Authenticate}
     type: Button
@@ -8,95 +9,131 @@ components:
     name: othertools
     properties: {text: Other Tools}
     type: Button
-  - layout_properties: {grid_position: 'JIWWIM,GBLQFA'}
-    name: last_seessions_rep
-    properties: {item_template: SSH.lastsessionstemplate, visible: false}
-    type: RepeatingPanel
+  - event_bindings: {click: active_sessions_btn_click}
+    layout_properties: {grid_position: 'ZDBVMX,SNAAMZ'}
+    name: active_sessions_btn
+    properties: {text: Active Sessions}
+    type: Button
+  - event_bindings: {click: session_recordings_btn_click}
+    layout_properties: {grid_position: 'XRIXTH,YQVKLZ'}
+    name: session_recordings_btn
+    properties: {text: Session Recordings}
+    type: Button
+  - components:
+    - layout_properties: {grid_position: 'GTIYUA,TRSNFP'}
+      name: last_session_label
+      properties: {align: center, text: Last Sessions}
+      type: Label
+    - data_bindings:
+      - {code: self.u_last_sessions, property: items, writeback: false}
+      layout_properties: {grid_position: 'MYRCWW,ANIILW'}
+      name: last_seessions_rep
+      properties: {item_template: SSH.lastsessionstemplate, visible: true}
+      type: RepeatingPanel
+    data_bindings: []
+    layout_properties: {grid_position: 'EEZTUK,HTANWK'}
+    name: last_sessions_coloumn
+    properties: {border: 'color: lighblue', role: null}
+    type: ColumnPanel
   layout_properties: {grid_position: 'ZSNEOA,YLPSTP'}
-  name: column_panel_1
+  name: column_panel_left
   properties: {}
   type: ColumnPanel
 - components:
   - components:
-    - layout_properties: {expand: false, width: 2000}
-      name: label_1
-      properties: {align: right, text: Customer}
-      type: Label
-    - layout_properties: {width: 1}
-      name: spacer_1
-      properties: {height: 32}
-      type: Spacer
-    - data_bindings:
-      - {code: self.groups, property: items, writeback: false}
-      event_bindings: {closed: multidropdown_change}
-      name: groups_multidropdown
-      properties:
-        enable_filtering: true
-        enable_select_all: true
-        items: [self.groups]
-      type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
-    layout_properties: {grid_position: 'HWJSCV,YXIOGL'}
-    name: flowpanel_1
-    properties: {gap: tiny}
-    type: FlowPanel
-  - components:
-    - layout_properties: {width: 10}
-      name: label_2
-      properties: {align: right, text: Vendor}
-      type: Label
-    - layout_properties: {width: 15}
-      name: spacer_2
-      properties: {height: 32}
-      type: Spacer
-    - data_bindings:
-      - {code: self.vendors, property: items, writeback: false}
-      event_bindings: {closed: multidropdown_change}
-      name: vendors_multidropdown
-      properties:
-        enable_filtering: true
-        enable_select_all: true
-        items: [self.vendors]
-      type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
-    layout_properties: {grid_position: 'KVEOVC,YCSAZP'}
-    name: flow_panel_2
-    properties: {gap: tiny}
-    type: FlowPanel
-  - components:
-    - layout_properties: {}
-      name: label_4
-      properties: {align: right, text: Type}
-      type: Label
-    - layout_properties: {width: 32}
-      name: spacer_4
-      properties: {height: 32}
-      type: Spacer
-    - data_bindings:
-      - {code: self.types, property: items, writeback: false}
-      event_bindings: {closed: multidropdown_change}
-      name: types_multidropdown
-      properties:
-        enable_filtering: true
-        enable_select_all: true
-        items: [self.types]
-      type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
-    layout_properties: {grid_position: 'UGRMNV,XROHXH'}
-    name: flow_panel_3
-    properties: {align: left, gap: tiny}
-    type: FlowPanel
-  - components:
-    - layout_properties: {width: 52}
-      name: spacer_3
-      properties: {height: 32}
-      type: Spacer
-    - event_bindings: {click: RESET_FILTER_click}
-      layout_properties: {}
-      name: RESET_FILTER
-      properties: {align: left, text: RESET FILTER}
-      type: Button
-    layout_properties: {grid_position: 'LZSGOW,ZIZWRE'}
-    name: flow_panel_4
+    - components:
+      - layout_properties: {expand: false, width: 2000}
+        name: label_1
+        properties: {align: right, text: Customer}
+        type: Label
+      - layout_properties: {width: 1}
+        name: spacer_1
+        properties: {height: 32}
+        type: Spacer
+      - data_bindings:
+        - {code: self.groups, property: items, writeback: false}
+        event_bindings: {closed: multidropdown_change}
+        name: groups_multidropdown
+        properties:
+          enable_filtering: true
+          enable_select_all: true
+          items: [self.groups]
+        type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+      layout_properties: {grid_position: 'GYABCZ,OZKZWJ ILAJLY,HBWCET'}
+      name: flowpanel_1
+      properties: {gap: tiny}
+      type: FlowPanel
+    - components:
+      - layout_properties: {width: 10}
+        name: label_2
+        properties: {align: right, text: Vendor}
+        type: Label
+      - layout_properties: {width: 15}
+        name: spacer_2
+        properties: {height: 32}
+        type: Spacer
+      - data_bindings:
+        - {code: self.vendors, property: items, writeback: false}
+        event_bindings: {closed: multidropdown_change}
+        name: vendors_multidropdown
+        properties:
+          enable_filtering: true
+          enable_select_all: true
+          items: [self.vendors]
+        type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+      layout_properties: {grid_position: 'GYABCZ,OZKZWJ QDQOZE,SERELR'}
+      name: flow_panel_2
+      properties: {gap: tiny}
+      type: FlowPanel
+    - components:
+      - layout_properties: {}
+        name: label_4
+        properties: {align: right, text: Type}
+        type: Label
+      - layout_properties: {width: 32}
+        name: spacer_4
+        properties: {height: 32}
+        type: Spacer
+      - data_bindings:
+        - {code: self.types, property: items, writeback: false}
+        event_bindings: {closed: multidropdown_change}
+        name: types_multidropdown
+        properties:
+          enable_filtering: true
+          enable_select_all: true
+          items: [self.types]
+        type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+      layout_properties: {grid_position: 'GYABCZ,OZKZWJ OEYQKW,OCXPMF'}
+      name: flow_panel_3
+      properties: {align: left, gap: tiny}
+      type: FlowPanel
+    - components:
+      - layout_properties: {grid_position: 'KSGOPF,ILKJSE'}
+        name: session_info_rich
+        properties: {}
+        type: RichText
+      layout_properties: {grid_position: 'GYABCZ,NTDICZ'}
+      name: mid_col_rightside
+      properties: {}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {width: 52}
+        name: spacer_3
+        properties: {height: 32}
+        type: Spacer
+      - event_bindings: {click: RESET_FILTER_click}
+        layout_properties: {}
+        name: RESET_FILTER
+        properties: {align: left, text: RESET FILTER}
+        type: Button
+      layout_properties: {grid_position: 'GYABCZ,OZKZWJ HKBBAO,WYSUNY'}
+      name: flow_panel_4
+      properties: {}
+      type: FlowPanel
+    layout_properties: {grid_position: 'SRWEYY,WIKNYU'}
+    name: mid_col_leftside
     properties: {}
-    type: FlowPanel
+    type: ColumnPanel
   - components:
     - event_bindings: {change: devices_table_search_text_change}
       layout_properties: {width: 251}
@@ -129,9 +166,62 @@ components:
     type: DataGrid
   layout_properties: {grid_position: 'ZSNEOA,VKTOVA'}
   name: middle_col
-  properties: {}
+  properties: {border: '2px solid #5F9EA0'}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'GYAUZS,CHXWLI'}
+    name: label_3
+    properties: {align: center, spacing_above: none, spacing_below: none, text: Address}
+    type: Label
+  - data_bindings:
+    - {code: self.ssh_manual_address_txt, property: text, writeback: false}
+    layout_properties: {grid_position: 'SAHWVW,LGBJJZ'}
+    name: ssh_manual_address
+    properties: {align: center, spacing_above: none, spacing_below: none, text: Address}
+    type: TextBox
+  - layout_properties: {grid_position: 'UWPYSM,DICVKM'}
+    name: label_5
+    properties: {align: center, text: Username}
+    type: Label
+  - data_bindings:
+    - {code: self.ssh_manual_username_txt, property: text, writeback: false}
+    event_bindings: {pressed_enter: ssh_manual_username_pressed_enter}
+    layout_properties: {grid_position: 'UEVDFK,ICIJMK'}
+    name: ssh_manual_username
+    properties: {align: center, spacing_above: none, spacing_below: none, text: Username}
+    type: TextBox
+  - layout_properties: {grid_position: 'LSWNMT,KXHYTN'}
+    name: label_6
+    properties: {align: center, spacing_above: none, text: Password}
+    type: Label
+  - data_bindings: []
+    layout_properties: {grid_position: 'JUCHSU,NMVAWW'}
+    name: ssh_manual_password
+    properties: {align: center, hide_text: true, spacing_above: none, spacing_below: none, text: Password}
+    type: TextBox
+  - layout_properties: {grid_position: 'MXDNZJ,ASSTFY'}
+    name: label_7
+    properties: {align: center, spacing_above: none, spacing_below: none, text: Port}
+    type: Label
+  - layout_properties: {grid_position: 'QFEXOJ,PTSTDZ'}
+    name: ssh_manual_port
+    properties: {align: center, placeholder: '22', spacing_above: none, spacing_below: none, text: '22'}
+    type: TextBox
+  - event_bindings: {click: manual_connect_btn_click}
+    layout_properties: {grid_position: 'UBBHGZ,EXTXEZ'}
+    name: manual_connect_btn
+    properties: {align: center, text: Connect}
+    type: Button
+  - layout_properties: {grid_position: 'CJVRUH,SVNWCZ'}
+    name: manual_hostname_label
+    properties: {text: ''}
+    type: Label
+  data_bindings: []
+  layout_properties: {grid_position: 'ZSNEOA,TUSVNZ'}
+  name: right_column_panel
+  properties: {col_spacing: tiny, spacing_above: small}
   type: ColumnPanel
 container:
-  properties: {col_widths: '{"YLPSTP":10,"VKTOVA":50}'}
+  properties: {col_widths: '{"YLPSTP":10,"VKTOVA":60,"TUSVNZ":10}', wrap_on: never}
   type: ColumnPanel
 is_package: true

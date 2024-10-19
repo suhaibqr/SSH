@@ -5,16 +5,19 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
+from ...devices_filter import wssh_connect, manual_connect
+
 
 
 class devicerowtemplate(devicerowtemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-
+    self.tasks_flow_panel.clear()
     self.init_components(**properties)
     # print(self.get_components())
-    self.tasks_flow_panel.clear()
+   
     self.initialize_task_buttons()
+    
    
     # 
 
@@ -29,12 +32,19 @@ class devicerowtemplate(devicerowtemplateTemplate):
     is_pmp = self.item.get('account_list', None)
     if is_pmp:
       cli_button = anvil.Button(text=str("AutoLogin"), role="raised", icon=None)
-      cli_button.tag.pmp = 1
+      cli_button.tag.pmp = True
       cli_button.background = "#28a745"
+      cli_button.tag.hostname = self.item["hostname"]
+      cli_button.tag.address = self.item["address"]
+      cli_button.set_event_handler('click',wssh_connect )
       self.tasks_flow_panel.add_component(cli_button)
     else:
       cli_button = anvil.Button(text=str("ManualLogin"), role="raised", icon=None)
-      cli_button.tag.pmp = 0
+      cli_button.tag.hostname = self.item["hostname"]
+      cli_button.tag.address = self.item["address"]
+      cli_button.tag.pmp = False
+    
+      cli_button.set_event_handler('click', manual_connect)
       self.tasks_flow_panel.add_component(cli_button)
   
   def create_gui_login(self):
@@ -42,13 +52,13 @@ class devicerowtemplate(devicerowtemplateTemplate):
     if is_gui == "GUI":
       gui_button = anvil.Button(text=str("GUI"), role="raised", icon=None)
       gui_button.tag.pmp = 1
+      gui_button.tag.name = self.item["hostname"]
+      gui_button.tag.url = self.item["address"]
       gui_button.background = "#28a745"
       self.tasks_flow_panel.add_component(gui_button)
-      
-      gui_credentials_button = anvil.Button(text=str("Credentials"), role="raised", icon=None)
-      gui_credentials_button.tag.pmp = 1
-      gui_credentials_button.background = "#28a745"
-      self.tasks_flow_panel.add_component(gui_credentials_button)
+
+
+
       
       
       
