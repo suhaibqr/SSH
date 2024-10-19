@@ -1,5 +1,9 @@
 from ._anvil_designer import devicerowtemplateTemplate
 from anvil import *
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+import anvil.users
 import anvil.server
 
 
@@ -35,7 +39,7 @@ class devicerowtemplate(devicerowtemplateTemplate):
   
   def create_gui_login(self):
     is_gui = self.item.get('type', None)
-    if is_gui:
+    if is_gui == "GUI":
       gui_button = anvil.Button(text=str("GUI"), role="raised", icon=None)
       gui_button.tag.pmp = 1
       gui_button.background = "#28a745"

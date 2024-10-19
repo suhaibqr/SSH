@@ -1,17 +1,21 @@
 from ._anvil_designer import SSHTemplate
 from anvil import *
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
 import anvil.server
 from ..devices_filter import FilterFactory, list_of_lists_to_dicts,filter_list_of_lists_by_strings
 from anvil_extras.utils import auto_refreshing
+import anvil.users
 
 
 
 
 
 
-@auto_refreshing
 class SSH(SSHTemplate):
   def __init__(self, **properties):
+    
     # Set Form properties and Data Bindings.
     
     all_inventory = anvil.server.call("inventory_from_database")
@@ -22,12 +26,29 @@ class SSH(SSHTemplate):
     self.keys = ["hostname", "address", "customer", "type","account_list"]
     self.indexes_of_interest = [0,2,10,3,11]
     self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
-
+    # self.get_last_cli_connections()
+    # self.last_seessions = get_last_cli_connections(")
     # list_of_lists_to_dicts
     # self.sites = []
     
     
     self.init_components(**properties)
+    # anvil.users.login_with_form()
+    # anvil.users.login_with_form()
+    self.saml_user ="suhaib.alrabee@example.com"
+    anvil.server.call("anvil_force_auth", self.saml_user)
+    self.u = anvil.users.get_user()
+    if self.u:
+      print(self.u["email"])
+      print("Authenticated")
+    else:
+      print("UnAuthenticated")
+
+    self.paint_last_cli_connections(self.u)
+
+
+    
+
     self.color_rows(self.devices_repeatingpanel)
     # Any code you write here will run before the form opens.
 
@@ -93,3 +114,14 @@ class SSH(SSHTemplate):
         r.background='#e0f7fa'
       else:
         r.background = '#ffffff'
+
+  def paint_last_cli_connections(self, u):
+    if u:
+      print(u["email"])
+      cli_session = anvil.server.call("get_last_cli_connections", u["email"])
+      print(cli_session)
+      for s in cli_session:
+        print(s)
+      
+      # self.last_seessions_rep.items = self.__init__()
+      self.last_seessions_rep.visible = True
