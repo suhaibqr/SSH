@@ -1,50 +1,112 @@
 components:
-- data_bindings:
-  - {code: self.groups, property: items, writeback: false}
-  event_bindings: {closed: multidropdown_change}
-  layout_properties: {grid_position: 'JTWJAZ,LKPKQZ'}
-  name: groups_multidropdown
-  properties:
-    enable_filtering: true
-    enable_select_all: true
-    items: [self.groups]
-  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
-- data_bindings:
-  - {code: self.vendors, property: items, writeback: false}
-  event_bindings: {closed: multidropdown_change}
-  layout_properties: {grid_position: 'WKWZYE,OXGZMT'}
-  name: vendors_multidropdown
-  properties:
-    enable_filtering: true
-    enable_select_all: true
-    items: [self.vendors]
-  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
-- data_bindings:
-  - {code: self.types, property: items, writeback: false}
-  event_bindings: {closed: multidropdown_change}
-  layout_properties: {grid_position: 'NMEZJJ,ZBFTNY'}
-  name: types_multidropdown
-  properties:
-    enable_filtering: true
-    enable_select_all: true
-    items: [self.types]
-  type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
-- event_bindings: {click: RESET_FILTER_click}
-  layout_properties: {grid_position: 'YTVIIM,VINWOZ'}
-  name: RESET_FILTER
-  properties: {align: left, text: RESET}
-  type: Button
 - components:
-  - name: devices_repeatingpanel
+  - layout_properties: {expand: false, width: 2000}
+    name: label_1
+    properties: {align: right, text: Customer}
+    type: Label
+  - layout_properties: {width: 1}
+    name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+  - data_bindings:
+    - {code: self.groups, property: items, writeback: false}
+    event_bindings: {closed: multidropdown_change}
+    name: groups_multidropdown
+    properties:
+      enable_filtering: true
+      enable_select_all: true
+      items: [self.groups]
+    type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+  layout_properties: {grid_position: 'JTWJAZ,SFNBIB'}
+  name: flowpanel_1
+  properties: {gap: tiny}
+  type: FlowPanel
+- components:
+  - layout_properties: {width: 10}
+    name: label_2
+    properties: {align: right, text: Vendor}
+    type: Label
+  - layout_properties: {width: 15}
+    name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+  - data_bindings:
+    - {code: self.vendors, property: items, writeback: false}
+    event_bindings: {closed: multidropdown_change}
+    name: vendors_multidropdown
+    properties:
+      enable_filtering: true
+      enable_select_all: true
+      items: [self.vendors]
+    type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+  layout_properties: {grid_position: 'WKWZYE,SRSCFT'}
+  name: flow_panel_2
+  properties: {gap: tiny}
+  type: FlowPanel
+- components:
+  - layout_properties: {}
+    name: label_4
+    properties: {align: right, text: Type}
+    type: Label
+  - layout_properties: {width: 32}
+    name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+  - data_bindings:
+    - {code: self.types, property: items, writeback: false}
+    event_bindings: {closed: multidropdown_change}
+    name: types_multidropdown
+    properties:
+      enable_filtering: true
+      enable_select_all: true
+      items: [self.types]
+    type: form:dep_372b4m9kxo9bje:MultiSelectDropDown
+  layout_properties: {grid_position: 'ONMKHQ,CJFGRQ'}
+  name: flow_panel_3
+  properties: {align: left, gap: tiny}
+  type: FlowPanel
+- components:
+  - layout_properties: {width: 52}
+    name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+  - event_bindings: {click: RESET_FILTER_click}
+    layout_properties: {}
+    name: RESET_FILTER
+    properties: {align: left, text: RESET FILTER}
+    type: Button
+  layout_properties: {grid_position: 'XTYBNW,CIGTHT'}
+  name: flow_panel_4
+  properties: {}
+  type: FlowPanel
+- components:
+  - event_bindings: {change: devices_table_search_text_change}
+    layout_properties: {width: 251}
+    name: devices_table_search_text
+    properties: {placeholder: Search Keywords Seprated by Space}
+    type: TextBox
+  - layout_properties: {}
+    name: rich_text_1
+    properties: {content: Enter Keywords Seperated By Space}
+    type: RichText
+  layout_properties: {grid_position: 'CEAIPQ,VFWSWP'}
+  name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+- components:
+  - data_bindings:
+    - {code: self.devices_table, property: items, writeback: false}
+    name: devices_repeatingpanel
     properties: {item_template: SSH.devicerowtemplate}
     type: RepeatingPanel
   layout_properties: {grid_position: 'DNICMX,WXMVFV'}
   name: device_datagrid
   properties:
     columns:
-    - {data_key: hostname, id: JKSDUP, title: Hostname}
-    - {data_key: address, id: VJQQOR, title: Address}
-    - {data_key: type, id: OJLQEN, title: Type}
+    - {data_key: hostname, expand: false, id: JKSDUP, title: Hostname, width: 163}
+    - {data_key: address, expand: false, id: VJQQOR, title: Address, width: 136}
+    - {data_key: customer, expand: false, id: VJWNTS, title: Customer, width: 168}
+    - {data_key: type, expand: false, id: OJLQEN, title: Type, width: 112}
     - {data_key: task, id: HOQVRS, title: Tasks}
   type: DataGrid
 container: {type: ColumnPanel}
