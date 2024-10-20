@@ -14,7 +14,7 @@ import base64
 
 
 def error_handler(err):
-  n = Notification("Slow Down", title="Slow Down", timeout=2)
+  n = Notification("Please inform Suhaib about this", title="Server issue", timeout=2)
   n.show()
     
 
@@ -222,6 +222,32 @@ class SSH(SSHTemplate):
     base64_encoded_string = base64_encoded.decode('utf-8')
     url = f"{wssh_url}?hostname={self.ssh_manual_address.text}&username={self.ssh_manual_username.text}&password={base64_encoded_string}"
     anvil.js.window.open(url, "_blank")
+
+  def test_ping_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    r = anvil.server.call("ping_host", self.test_address_box.text)
+    alert(r, title="Ping Result", large=True)
+    # print(r)
+    # if pingable:
+    #   msg = "Reacahble"
+    # else:
+    #   msgb = "Not Reachable"
+
+  def check_port_status(self, **event_args):
+    """This method is called when the button is clicked"""
+    r = anvil.server.call("check_port_status", self.test_address_box.text, self.test_port_box.text)
+    if r == "open":
+      m = "Port is Open" 
+    elif r == "closed":
+      m = "Port is closed"
+    else:
+      m = "Port is Not Reachable"
+    
+    
+    alert(m, title="Port Status", large=True)
+   
+
+
     
    
 

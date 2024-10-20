@@ -41,6 +41,15 @@ components:
   type: ColumnPanel
 - components:
   - components:
+    - data_bindings: []
+      layout_properties: {grid_position: 'ERSHDJ,VSICRR'}
+      name: bunker_dropdown_menu
+      properties:
+        align: center
+        include_placeholder: true
+        items: ['"TDM Vertus: 10.215.10.215']
+        placeholder: Choose Bunker To Tunnel Tasks, By Default TDM Main Bunker Will Be Used
+      type: DropDown
     - components:
       - layout_properties: {expand: false, width: 2000}
         name: label_1
@@ -172,57 +181,89 @@ components:
   properties: {border: '2px solid #5F9EA0'}
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'GYAUZS,CHXWLI'}
+  - layout_properties: {grid_position: 'IWQBGM,AYLICC GYAUZS,CHXWLI'}
     name: label_3
     properties: {align: center, spacing_above: none, spacing_below: none, text: Address}
     type: Label
   - data_bindings:
     - {code: self.ssh_manual_address_txt, property: text, writeback: false}
-    layout_properties: {grid_position: 'SAHWVW,LGBJJZ'}
+    layout_properties: {grid_position: 'IWQBGM,AYLICC SAHWVW,LGBJJZ'}
     name: ssh_manual_address
     properties: {align: center, spacing_above: none, spacing_below: none, text: Address}
     type: TextBox
-  - layout_properties: {grid_position: 'UWPYSM,DICVKM'}
+  - layout_properties: {grid_position: 'IWQBGM,AYLICC UWPYSM,DICVKM'}
     name: label_5
     properties: {align: center, text: Username}
     type: Label
   - data_bindings:
     - {code: self.ssh_manual_username_txt, property: text, writeback: false}
     event_bindings: {pressed_enter: ssh_manual_username_pressed_enter}
-    layout_properties: {grid_position: 'UEVDFK,ICIJMK'}
+    layout_properties: {grid_position: 'IWQBGM,AYLICC UEVDFK,ICIJMK'}
     name: ssh_manual_username
     properties: {align: center, spacing_above: none, spacing_below: none, text: Username}
     type: TextBox
-  - layout_properties: {grid_position: 'LSWNMT,KXHYTN'}
+  - layout_properties: {grid_position: 'IWQBGM,AYLICC LSWNMT,KXHYTN'}
     name: label_6
     properties: {align: center, spacing_above: none, text: Password}
     type: Label
   - data_bindings: []
-    layout_properties: {grid_position: 'JUCHSU,NMVAWW'}
+    layout_properties: {grid_position: 'IWQBGM,AYLICC JUCHSU,NMVAWW'}
     name: ssh_manual_password
     properties: {align: center, hide_text: true, spacing_above: none, spacing_below: none, text: Password}
     type: TextBox
-  - layout_properties: {grid_position: 'MXDNZJ,ASSTFY'}
+  - layout_properties: {grid_position: 'IWQBGM,AYLICC MXDNZJ,ASSTFY'}
     name: label_7
     properties: {align: center, spacing_above: none, spacing_below: none, text: Port}
     type: Label
-  - layout_properties: {grid_position: 'QFEXOJ,PTSTDZ'}
+  - layout_properties: {grid_position: 'IWQBGM,AYLICC QFEXOJ,PTSTDZ'}
     name: ssh_manual_port
     properties: {align: center, placeholder: '22', spacing_above: none, spacing_below: none, text: '22'}
     type: TextBox
   - event_bindings: {click: manual_connect_btn_click}
-    layout_properties: {grid_position: 'UBBHGZ,EXTXEZ'}
+    layout_properties: {grid_position: 'IWQBGM,AYLICC UBBHGZ,EXTXEZ'}
     name: manual_connect_btn
     properties: {align: center, text: Connect}
     type: Button
-  - layout_properties: {grid_position: 'CJVRUH,SVNWCZ'}
+  - layout_properties: {grid_position: 'IWQBGM,AYLICC CJVRUH,SVNWCZ'}
     name: manual_hostname_label
     properties: {text: ''}
     type: Label
   data_bindings: []
-  layout_properties: {grid_position: 'ZSNEOA,TUSVNZ'}
+  layout_properties: {grid_position: 'ZSNEOA,TUSVNZ NTLKOP,QUZEWX'}
   name: right_column_panel
   properties: {col_spacing: tiny, spacing_above: small}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'XQTTCE,UAUTAV'}
+    name: label_8
+    properties: {align: center, text: Tester}
+    type: Label
+  - layout_properties: {grid_position: 'SMBHLS,CFRAMP'}
+    name: test_address_box
+    properties: {align: center, placeholder: Address}
+    type: TextBox
+  - layout_properties: {grid_position: 'BEUKXB,WTINVB'}
+    name: test_port_box
+    properties: {align: center, placeholder: Port}
+    type: TextBox
+  - components:
+    - event_bindings: {click: test_ping_btn_click}
+      layout_properties: {width: -15}
+      name: test_ping_btn
+      properties: {text: Ping}
+      type: Button
+    - event_bindings: {click: check_port_status}
+      layout_properties: {}
+      name: test_port_btn
+      properties: {text: Port}
+      type: Button
+    layout_properties: {grid_position: 'ADJNYG,DJIHLT'}
+    name: tester_btns_flow_panel
+    properties: {align: center, gap: none, spacing_above: none, spacing_below: none, vertical_align: middle}
+    type: FlowPanel
+  layout_properties: {grid_position: 'ZSNEOA,TUSVNZ YSHEVX,RLANJD'}
+  name: right_colpanel_tester
+  properties: {border: '2px solid #5F9EA0'}
   type: ColumnPanel
 container:
   properties: {col_widths: '{"YLPSTP":10,"VKTOVA":60,"TUSVNZ":10}', wrap_on: never}
