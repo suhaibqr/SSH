@@ -271,9 +271,10 @@ class SSH(SSHTemplate):
     # Authenticated: {auth_status}
     # '''
     self.rich_session_details = f'''
+    Built with <3 by Network Team,
     You can greatly help by providing
     feedbacks, Please, report any issues 
-    or ideas to Suhaib.
+    or ideas to the team.
     Logged in as: {u_cookie}
     Logged in from: {ip}
     '''

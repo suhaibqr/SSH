@@ -17,8 +17,10 @@ import jwt
 #   return 42
 #
 SECRET_KEY = "your_jwt_secret_key"
-# my_anvil_app = "https://unbhgzjperrlwjls.anvil.app/FYD3OMOQS6VS7CF5UQ73MGJF"
-my_anvil_app = "http://10.215.10.215:8002"
+if "anvil.app" in anvil.server.get_app_origin():
+  my_anvil_app = "https://unbhgzjperrlwjls.anvil.app/FYD3OMOQS6VS7CF5UQ73MGJF"
+else:
+  my_anvil_app = "http://10.215.10.215:8002"
 
 @anvil.server.route("/token/:token")
 def process_jwt(token):

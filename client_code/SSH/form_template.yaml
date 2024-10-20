@@ -1,28 +1,28 @@
 components:
 - components:
   - event_bindings: {click: Authenticate_click}
-    layout_properties: {grid_position: 'RAFMVA,RJIAED'}
+    layout_properties: {grid_position: 'OQCHTS,LRUUHK RAFMVA,RJIAED'}
     name: Authenticate
     properties: {text: Authenticate}
     type: Button
   - data_bindings:
     - {code: self.cookie_auth, property: enabled, writeback: false}
     event_bindings: {click: automater_btn_click}
-    layout_properties: {grid_position: 'THFVTE,OGQMQF'}
+    layout_properties: {grid_position: 'OQCHTS,LRUUHK THFVTE,OGQMQF'}
     name: automater_btn
     properties: {text: Automater}
     type: Button
   - data_bindings:
     - {code: self.cookie_auth, property: enabled, writeback: false}
     event_bindings: {click: active_sessions_btn_click}
-    layout_properties: {grid_position: 'ZDBVMX,SNAAMZ'}
+    layout_properties: {grid_position: 'OQCHTS,LRUUHK ZDBVMX,SNAAMZ'}
     name: active_sessions_btn
     properties: {enabled: true, text: Active Sessions}
     type: Button
   - data_bindings:
     - {code: self.cookie_auth, property: enabled, writeback: false}
     event_bindings: {click: session_recordings_btn_click}
-    layout_properties: {grid_position: 'XRIXTH,YQVKLZ'}
+    layout_properties: {grid_position: 'OQCHTS,LRUUHK XRIXTH,YQVKLZ'}
     name: session_recordings_btn
     properties: {text: Session Recordings}
     type: Button
@@ -41,18 +41,18 @@ components:
       properties: {item_template: SSH.lastsessionstemplate, visible: true}
       type: RepeatingPanel
     data_bindings: []
-    layout_properties: {grid_position: 'EEZTUK,HTANWK'}
+    layout_properties: {grid_position: 'OQCHTS,LRUUHK EEZTUK,HTANWK'}
     name: last_sessions_coloumn
     properties: {border: 'color: lighblue', role: null}
     type: ColumnPanel
   - event_bindings: {click: logout_btn_click}
-    layout_properties: {grid_position: 'NJATBY,ZPZHML'}
+    layout_properties: {grid_position: 'OQCHTS,LRUUHK NJATBY,ZPZHML'}
     name: logout_btn
     properties: {text: Logout}
     type: Button
-  layout_properties: {grid_position: 'ZSNEOA,YLPSTP'}
+  layout_properties: {full_width_row: false, grid_position: 'ZSNEOA,YLPSTP'}
   name: column_panel_left
-  properties: {}
+  properties: {col_spacing: medium, spacing_above: small}
   type: ColumnPanel
 - components:
   - components:
@@ -153,12 +153,12 @@ components:
       properties: {text: refresh session}
       type: Button
     - components:
-      - layout_properties: {width: 52}
+      - layout_properties: {width: 107}
         name: spacer_3
         properties: {height: 32}
         type: Spacer
       - data_bindings:
-        - {code: self.cookie_auth, property: visible, writeback: false}
+        - {code: self.cookie_auth, property: enabled, writeback: false}
         event_bindings: {click: RESET_FILTER_click}
         layout_properties: {}
         name: RESET_FILTER
@@ -173,26 +173,31 @@ components:
     properties: {col_widths: '{"OZKZWJ":30,"NTDICZ":30}'}
     type: ColumnPanel
   - components:
+    - layout_properties: {width: 221.79998779296875}
+      name: spacer_5
+      properties: {height: 32}
+      type: Spacer
     - data_bindings:
       - {code: self.cookie_auth, property: enabled, writeback: false}
       event_bindings: {pressed_enter: devices_table_search_text_change}
       layout_properties: {width: 251}
       name: devices_table_search_text
-      properties: {placeholder: Search Keywords Seprated by Space}
+      properties: {align: center, placeholder: Search Keywords Seprated by Space}
       type: TextBox
-    - layout_properties: {expand: false}
+    - layout_properties: {}
       name: rich_text_1
       properties:
         content: |-
           Keywords Seperated By Space
           Press ENTER to trigger search
-        format: plain_text
+        font_size: 11
+        format: markdown
         spacing_above: none
         spacing_below: none
       type: RichText
     layout_properties: {grid_position: 'IKIPET,HWSPKP'}
     name: flow_panel_1
-    properties: {gap: none, spacing_above: none, spacing_below: none}
+    properties: {gap: tiny, spacing_above: none, spacing_below: none}
     type: FlowPanel
   - components:
     - data_bindings:
@@ -210,7 +215,7 @@ components:
       - {data_key: type, expand: false, id: OJLQEN, title: Type, width: 112}
       - {data_key: task, id: HOQVRS, title: Tasks}
     type: DataGrid
-  layout_properties: {grid_position: 'ZSNEOA,VKTOVA'}
+  layout_properties: {full_width_row: false, grid_position: 'ZSNEOA,VKTOVA'}
   name: middle_col
   properties: {border: '2px solid #5F9EA0'}
   type: ColumnPanel
@@ -318,7 +323,9 @@ components:
     name: tester_btns_flow_panel
     properties: {align: center, gap: none, spacing_above: none, spacing_below: none, vertical_align: middle}
     type: FlowPanel
-  - event_bindings: {click: NSlookup_click}
+  - data_bindings:
+    - {code: self.cookie_auth, property: enabled, writeback: false}
+    event_bindings: {click: NSlookup_click}
     layout_properties: {grid_position: 'AGOEAC,FVMYHA'}
     name: NSlookup
     properties: {text: Nslookup}
@@ -328,6 +335,6 @@ components:
   properties: {border: ''}
   type: ColumnPanel
 container:
-  properties: {col_widths: '{"YLPSTP":10,"VKTOVA":60,"TUSVNZ":10}', wrap_on: never}
+  properties: {background: '#c1e2e1', col_spacing: tiny, col_widths: '{"YLPSTP":10,"VKTOVA":60,"TUSVNZ":10}', foreground: '#786d6d', visible: true, wrap_on: never}
   type: ColumnPanel
 is_package: true
