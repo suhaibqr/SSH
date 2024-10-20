@@ -27,7 +27,6 @@ filter_factory = FilterFactory(all_inventory)
 class SSH(SSHTemplate):
   def __init__(self, **properties):
     
-  
     # Set Form properties and Data Bindings.
     self.rich_session_details = ""
     self.u_last_sessions = []
@@ -39,10 +38,8 @@ class SSH(SSHTemplate):
     self.keys = ["hostname", "address", "customer", "type","account_list"]
     self.indexes_of_interest = [0,2,10,3,11]
     self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
-
-
-
     self.types, self.vendors, self.groups = filter_factory.get_available_values_for_indexes([3,4,10])
+    
     # self.types = filter_factory.get_available_values(3)
     # self.vendors = filter_factory.get_available_values(4)
     # self.groups = filter_factory.get_available_values(10)
@@ -51,30 +48,25 @@ class SSH(SSHTemplate):
 
     
     
-    
-    
-  
     self.init_components(**properties)
-    self.update_session_info()
+    
+    
     # self.saml_user ="suhaib.alrabee@example.com"
     # anvil.server.call("anvil_force_auth", self.saml_user)
-    self.u = anvil.users.get_user()
-    if self.u:
-      print(self.u["email"])
-      print("Authenticated")
-    else:
-      print("UnAuthenticated")
+
+    
+    self.devices_repeatingpanel.items = self.devices_table
 
     self.check_auth()
-    self.devices_repeatingpanel.items = self.devices_table
-    self.paint_last_cli_connections(self.u)
-    self.color_rows(self.devices_repeatingpanel)
     
     
-    # self.refresh_data_bindings()
     # Any code you write here will run before the form opens.
 
-      # self.sites = FilterFactory.available_options()
+    
+    self.update_session_info()
+    self.paint_last_cli_connections(self.u)
+    self.color_rows(self.devices_repeatingpanel)
+    self.refresh_data_bindings()
     pass
 
   def filter_dropdown(self):
@@ -210,7 +202,6 @@ class SSH(SSHTemplate):
 
   def Authenticate_click(self, **event_args):
     """This method is called when the button is clicked"""
-    # anvil.server.call("clear_cookies")
     anvil.js.window.open(f"{wssh_url}login/saml", "_blank")
     pass
 
@@ -252,8 +243,10 @@ class SSH(SSHTemplate):
     if u != "Not Found" and u:
       anvil.server.call("anvil_force_auth", u)
       print("Cookies are:", u, ip)
+      self.cookie_auth = True
       return True
     else:
+      self.cookie_auth = False
       print("No Auth Cookies")
       return False
 

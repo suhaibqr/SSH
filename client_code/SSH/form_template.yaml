@@ -5,16 +5,22 @@ components:
     name: Authenticate
     properties: {text: Authenticate}
     type: Button
-  - layout_properties: {grid_position: 'THFVTE,OGQMQF'}
+  - data_bindings:
+    - {code: self.cookie_auth, property: enabled, writeback: false}
+    layout_properties: {grid_position: 'THFVTE,OGQMQF'}
     name: othertools
     properties: {text: Other Tools}
     type: Button
-  - event_bindings: {click: active_sessions_btn_click}
+  - data_bindings:
+    - {code: self.cookie_auth, property: enabled, writeback: false}
+    event_bindings: {click: active_sessions_btn_click}
     layout_properties: {grid_position: 'ZDBVMX,SNAAMZ'}
     name: active_sessions_btn
-    properties: {text: Active Sessions}
+    properties: {enabled: true, text: Active Sessions}
     type: Button
-  - event_bindings: {click: session_recordings_btn_click}
+  - data_bindings:
+    - {code: self.cookie_auth, property: enabled, writeback: false}
+    event_bindings: {click: session_recordings_btn_click}
     layout_properties: {grid_position: 'XRIXTH,YQVKLZ'}
     name: session_recordings_btn
     properties: {text: Session Recordings}
@@ -226,7 +232,9 @@ components:
     name: ssh_manual_port
     properties: {align: center, placeholder: '22', spacing_above: none, spacing_below: none, text: '22'}
     type: TextBox
-  - event_bindings: {click: manual_connect_btn_click}
+  - data_bindings:
+    - {code: self.cookie_auth, property: enabled, writeback: false}
+    event_bindings: {click: manual_connect_btn_click}
     layout_properties: {grid_position: 'IWQBGM,AYLICC UBBHGZ,EXTXEZ'}
     name: manual_connect_btn
     properties: {align: center, text: Connect}
@@ -254,12 +262,16 @@ components:
     properties: {align: center, placeholder: Port}
     type: TextBox
   - components:
-    - event_bindings: {click: test_ping_btn_click}
+    - data_bindings:
+      - {code: self.cookie_auth, property: enabled, writeback: false}
+      event_bindings: {click: test_ping_btn_click}
       layout_properties: {width: -15}
       name: test_ping_btn
       properties: {text: Ping}
       type: Button
-    - event_bindings: {click: check_port_status}
+    - data_bindings:
+      - {code: self.cookie_auth, property: enabled, writeback: false}
+      event_bindings: {click: check_port_status}
       layout_properties: {}
       name: test_port_btn
       properties: {text: Port}
