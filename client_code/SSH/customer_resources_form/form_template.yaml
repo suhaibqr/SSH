@@ -1,0 +1,29 @@
+components:
+- components:
+  - components:
+    - layout_properties: {grid_position: 'ZJHJHI,NIYHHQ'}
+      name: customer_dropdownmenue
+      properties: {}
+      type: DropDown
+    layout_properties: {grid_position: 'TPDWEQ,XDOBSU'}
+    name: mid_panel_left_side
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - name: repeating_panel_1
+      properties: {item_template: SSH.customer_resources_form.RowTemplate1}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'OBFHYE,HGSMAT'}
+    name: customers_resources_datagrid
+    properties:
+      columns:
+      - {data_key: customer, id: JKSDUP, title: Customer}
+      - {data_key: type, id: VJQQOR, title: Type}
+      - {data_key: filena, id: OJLQEN, title: Filename}
+    type: DataGrid
+  layout_properties: {grid_position: 'IFLHZK,ZYHWKQ'}
+  name: cr_main_mid_panel
+  properties: {}
+  type: ColumnPanel
+container: {type: ColumnPanel}
+is_package: true

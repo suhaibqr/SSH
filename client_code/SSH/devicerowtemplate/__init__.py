@@ -5,7 +5,9 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
-from ...devices_filter import wssh_connect, manual_connect
+from ...devices_filter import wssh_connect, manual_connect , device_table_test_connection
+
+
 
 
 
@@ -27,7 +29,8 @@ class devicerowtemplate(devicerowtemplateTemplate):
   def initialize_task_buttons(self):
     self.create_cli_button()
     self.create_gui_login()
-  
+    self.create_test_btn()
+    
   def create_cli_button(self):
     is_pmp = self.item.get('account_list', None)
     if is_pmp:
@@ -58,8 +61,13 @@ class devicerowtemplate(devicerowtemplateTemplate):
       self.tasks_flow_panel.add_component(gui_button)
 
 
-
-      
-      
+  def create_test_btn(self):
+    test_btn = Button(text=str("Test"), role="raised", icon=None)
+    test_btn.tag.hostname = self.item["hostname"]
+    test_btn.tag.ip = self.item["address"]
+    test_btn.tag.port = 22
+    test_btn.background = "#25a945"
+    test_btn.set_event_handler('click',device_table_test_connection)
+    self.tasks_flow_panel.add_component(test_btn)
       
       

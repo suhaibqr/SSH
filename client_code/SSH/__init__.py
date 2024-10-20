@@ -8,7 +8,7 @@ from ..devices_filter import FilterFactory , list_of_lists_to_dicts,filter_list_
 from anvil_extras.utils import auto_refreshing
 import anvil.users
 import anvil.js.window
-import base64
+
 
 
 all_inventory = []
@@ -37,6 +37,7 @@ class SSH(SSHTemplate):
     self.cookie_auth = False
     self.keys = ["hostname", "address", "customer", "type","account_list"]
     self.indexes_of_interest = [0,2,10,3,11]
+    self.logout_btn.enabled = False
     
     self.devices_table = []
     self.types = []
@@ -63,7 +64,7 @@ class SSH(SSHTemplate):
     
     self.update_session_info()
     
-    self.color_rows(self.devices_repeatingpanel)
+    
     
     if is_auth:
       all_inventory = anvil.server.call("inventory_from_database")
@@ -73,6 +74,7 @@ class SSH(SSHTemplate):
       self.types, self.vendors, self.groups = self.filter_factory.get_available_values_for_indexes([3,4,10])
     
     self.refresh_data_bindings()
+    self.color_rows(self.devices_repeatingpanel)
     pass
 
   def filter_dropdown(self):
@@ -86,9 +88,10 @@ class SSH(SSHTemplate):
     if self.devices_table_search_text.text != "":
       self.filter_factory.filtered_list = filter_list_of_lists_by_strings(self.filter_factory.filtered_list, self.devices_table_search_text.text)
     self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
+
+    
     self.refresh_data_bindings()
     self.color_rows(self.devices_repeatingpanel)
- 
 
   def RESET_FILTER_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -101,11 +104,11 @@ class SSH(SSHTemplate):
     self.vendors = self.filter_factory.get_available_values(4)
     self.groups = self.filter_factory.get_available_values(10)
     self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
+    
+    
+    self.manual_hostname_label.text = ""
     self.refresh_data_bindings()
     self.color_rows(self.devices_repeatingpanel)
-    self.manual_hostname_label.text = ""
-    
-
   def devices_table_search_text_change(self, **event_args):
     """This method is called when the text in this text area is edited"""
 
@@ -296,8 +299,19 @@ class SSH(SSHTemplate):
     anvil.open_form('SSH')
     pass
 
-      
+  def automater_btn_click(self, **event_args):
+    
+    """This method is called when the button is clicked"""
+    pass
+
+  def NSlookup_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    r = anvil.server.call("nslookup", self.test_address_box.text,self.test_dns_box.text)
+    alert(r, title="Nslookup Result", large=True)
+   
+
  
+  
       
 
 
@@ -319,6 +333,8 @@ def check_another_function(external_function):
         
         return wrapper
     return decorator
+
+
 
 
     

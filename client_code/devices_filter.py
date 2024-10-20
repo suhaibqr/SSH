@@ -3,6 +3,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
+from anvil import alert
 # This is a module.
 # You can define variables and functions here, and use them from any form. For example, in a top-level form:
 #
@@ -174,3 +175,11 @@ def manual_connect(**args):
   f.ssh_manual_password.text = ""   
   f.ssh_manual_username.text = ""
   anvil.js.window.scrollTo(0, 0)
+
+def device_table_test_connection(**args):
+    
+    ping_result = anvil.server.call("ping_host", args["sender"].tag.ip)
+    port_result = anvil.server.call("check_port_status", args["sender"].tag.ip, str(22))
+    a = f"{ping_result}\n---------------------------------------------------\n\n\n\n SSH PORT STATUS: {port_result}"
+    alert(a, title=f"Test Result for {args['sender'].tag.hostname}", large=True)
+  
