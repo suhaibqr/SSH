@@ -17,6 +17,7 @@ import jwt
 #   return 42
 #
 SECRET_KEY = "your_jwt_secret_key"
+my_anvil_app = "https://unbhgzjperrlwjls.anvil.app/FYD3OMOQS6VS7CF5UQ73MGJF"
 
 @anvil.server.route("/token/:token")
 def process_jwt(token):
@@ -31,13 +32,18 @@ def process_jwt(token):
       user_id = decoded_token["sub"]
       print(anvil.server.request.remote_address)
       anvil.server.cookies.shared.set(1, name=user_id, ip=anvil.server.request.remote_address)
-      anvil.users.signup_with_email(user_id,"XXXXXasdjaskldjskdfjlgkjl3jh23k4j2kls;oldf[]asas03042ol",remember= True)
-      print(f"Welcome {user_id}, you have successfully logged in to Site-A!")
+      existing_user = app_tables.users.get(email=user_id)
+      if not existing_user:
+        anvil.users.signup_with_email(user_id,"XXXXXasdjaskldjskdfjlgkjl3jh23k4j2kls;oldf[]asas03042ol",remember= True)
       user = app_tables.users.get(email=user_id)
       anvil.users.force_login(user, remember=True)
+      print(f"Welcome {user['email']}, you have successfully logged in to Site-A!")
       # print(anvil.server.cookies.shared.get("ip", "Not Found"))
       # print(anvil.server.cookies.shared.get("name", "Not Found"))
-      return anvil.server.FormResponse('SSH')
+      response = anvil.server.HttpResponse(302, "Redirecting to TDM-Platform...")
+      response.headers['Location'] = f"{my_anvil_app}"
+      return response
+      # return anvil.server.FormResponse('SSH')
     except jwt.ExpiredSignatureError:
         return "Token has expired"
     except jwt.InvalidTokenError:

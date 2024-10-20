@@ -268,8 +268,9 @@ class SSH(SSHTemplate):
     # Authenticated: {auth_status}
     # '''
     self.rich_session_details = f'''
-    You can greatly help by providing feedbacks.
-    Please, report any issues or ideas to Suhaib.
+    You can greatly help by providing
+    feedbacks, Please, report any issues 
+    or ideas to Suhaib.
     Logged in as: {u_cookie}
     Logged in from: {ip}
     '''
@@ -288,7 +289,7 @@ class SSH(SSHTemplate):
 
   def logout_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    # anvil.server.call('clear_cookies')
+    anvil.server.call('clear_cookies')
     anvil.users.logout()
     self.logout_btn.enabled = False
     self.refresh_data_bindings()

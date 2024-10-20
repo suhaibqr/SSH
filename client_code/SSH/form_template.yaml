@@ -162,7 +162,7 @@ components:
       type: FlowPanel
     layout_properties: {grid_position: 'SRWEYY,WIKNYU'}
     name: mid_col_leftside
-    properties: {}
+    properties: {col_widths: '{"OZKZWJ":30,"NTDICZ":30}'}
     type: ColumnPanel
   - components:
     - event_bindings: {pressed_enter: devices_table_search_text_change}
