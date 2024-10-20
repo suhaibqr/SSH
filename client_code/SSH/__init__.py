@@ -26,6 +26,13 @@ filter_factory = FilterFactory(all_inventory)
 
 class SSH(SSHTemplate):
   def __init__(self, **properties):
+    u , ip = anvil.server.call("get_cookies")
+    if u != "Not Found" and u:
+      anvil.server.call("anvil_force_auth", u)
+      print("Cookies are:", u, ip)
+    else:
+      print("No Auth Cookies")
+    
     
     # Set Form properties and Data Bindings.
     self.u_last_sessions = []
@@ -54,8 +61,8 @@ class SSH(SSHTemplate):
   
     self.init_components(**properties)
 
-    self.saml_user ="suhaib.alrabee@example.com"
-    anvil.server.call("anvil_force_auth", self.saml_user)
+    # self.saml_user ="suhaib.alrabee@example.com"
+    # anvil.server.call("anvil_force_auth", self.saml_user)
     self.u = anvil.users.get_user()
     if self.u:
       print(self.u["email"])
@@ -204,7 +211,7 @@ class SSH(SSHTemplate):
 
   def Authenticate_click(self, **event_args):
     """This method is called when the button is clicked"""
-    anvil.js.window.open(f"{wssh_url}", "_blank")
+    anvil.js.window.open(f"{wssh_url}/login/saml", "_blank")
     pass
 
   def manual_connect_btn_click(self, **event_args):

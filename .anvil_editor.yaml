@@ -9,4 +9,5 @@ unique_ids:
   modules:
     devices_filter: '1729277438729759318394252.8198'
   scripts: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '1729404161060639765130680.1808'

@@ -69,19 +69,19 @@ class FilterFactory:
                 available_values[key] = sorted(set(item[key] for item in self.filtered_list))
         return available_values[3], available_values[4], available_values[10]
 
-  def get_available_values_for_indexes(self, indexes):
-      """
-      Return the available values for a list of indexes from the filtered_list.
-  
-      :param indexes: List of indexes to check.
-      :return: A dictionary where each index contains the available unique values after filtering.
-      """
-      available_values = {}
-      for index in indexes:
-          # Get the unique values for the given index from the filtered_list
-          available_values[index] = sorted(set(item[index] for item in self.filtered_list))
-  
-      return available_values
+    def get_available_values_for_indexes(self, indexes):
+        """
+        Return the available values for a list of indexes from the filtered_list.
+    
+        :param indexes: List of indexes to check.
+        :return: A dictionary where each index contains the available unique values after filtering.
+        """
+        available_values = {}
+        for index in indexes:
+            # Get the unique values for the given index from the filtered_list
+            available_values[index] = sorted(set(item[index] for item in self.filtered_list))
+    
+        return available_values[3], available_values[4], available_values[10]
 
 def list_of_lists_to_dicts(keys, list_of_lists, indexes_of_interest):
     """
