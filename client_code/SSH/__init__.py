@@ -4,14 +4,14 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
-from ..devices_filter import FilterFactory, list_of_lists_to_dicts,filter_list_of_lists_by_strings, check_if_pmp, wssh_url
+from ..devices_filter import FilterFactory , list_of_lists_to_dicts,filter_list_of_lists_by_strings, check_if_pmp, wssh_url
 from anvil_extras.utils import auto_refreshing
 import anvil.users
 import anvil.js.window
 import base64
 
 
-
+all_inventory = []
 
 def error_handler(err):
   n = Notification("Please inform Suhaib about this", title="Server issue", timeout=2)
@@ -20,11 +20,11 @@ def error_handler(err):
 
 set_default_error_handling(error_handler)
 
-all_inventory = anvil.server.call("inventory_from_database")
-filter_factory = FilterFactory(all_inventory)
+
 
 
 class SSH(SSHTemplate):
+  global all_inventory
   def __init__(self, **properties):
     
     # Set Form properties and Data Bindings.
@@ -34,16 +34,14 @@ class SSH(SSHTemplate):
     # self.ssh_manual_password_txt = "Password"
     self.ssh_manual_username_txt = "Username"
     self.ssh_manual_port_txt = 22
-
+    self.cookie_auth = False
     self.keys = ["hostname", "address", "customer", "type","account_list"]
     self.indexes_of_interest = [0,2,10,3,11]
-    self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
-    self.types, self.vendors, self.groups = filter_factory.get_available_values_for_indexes([3,4,10])
     
-    # self.types = filter_factory.get_available_values(3)
-    # self.vendors = filter_factory.get_available_values(4)
-    # self.groups = filter_factory.get_available_values(10)
-
+    self.devices_table = []
+    self.types = []
+    self.vendors = []
+    self.groups = []
 
 
     
@@ -57,15 +55,23 @@ class SSH(SSHTemplate):
     
     self.devices_repeatingpanel.items = self.devices_table
 
-    self.check_auth()
+    is_auth = self.check_auth()
     
     
     # Any code you write here will run before the form opens.
 
     
     self.update_session_info()
-    self.paint_last_cli_connections(self.u)
+    
     self.color_rows(self.devices_repeatingpanel)
+    
+    if is_auth:
+      all_inventory = anvil.server.call("inventory_from_database")
+      self.filter_factory = FilterFactory(all_inventory)
+      all_inventory = self.filter_factory.all_lists
+      self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
+      self.types, self.vendors, self.groups = self.filter_factory.get_available_values_for_indexes([3,4,10])
+    
     self.refresh_data_bindings()
     pass
 
@@ -74,16 +80,12 @@ class SSH(SSHTemplate):
     t = self.types_multidropdown.selected
     v = self.vendors_multidropdown.selected
    
-    self.types, self.vendors , self.groups = filter_factory.filter_and_get_available_values([{3:t}, {4:v}, {10:g}])
+    self.types, self.vendors , self.groups = self.filter_factory.filter_and_get_available_values([{3:t}, {4:v}, {10:g}])
      
-    # filter_factory.filter_list([{3:t}, {4:v}, {10:g}])
-    # self.types = filter_factory.get_available_values(3)
-    # self.vendors = filter_factory.get_available_values(4)
-    # self.groups = filter_factory.get_available_values(10)
     
     if self.devices_table_search_text.text != "":
-      filter_factory.filtered_list = filter_list_of_lists_by_strings(filter_factory.filtered_list, self.devices_table_search_text.text)
-    self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
+      self.filter_factory.filtered_list = filter_list_of_lists_by_strings(self.filter_factory.filtered_list, self.devices_table_search_text.text)
+    self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
     self.refresh_data_bindings()
     self.color_rows(self.devices_repeatingpanel)
  
@@ -94,11 +96,11 @@ class SSH(SSHTemplate):
     self.types_multidropdown.selected = []
     self.vendors_multidropdown.selected = []
     self.devices_table_search_text.text = ""
-    filter_factory.filtered_list = filter_factory.all_lists
-    self.types = filter_factory.get_available_values(3)
-    self.vendors = filter_factory.get_available_values(4)
-    self.groups = filter_factory.get_available_values(10)
-    self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
+    self.filter_factory.filtered_list = self.filter_factory.all_lists
+    self.types = self.filter_factory.get_available_values(3)
+    self.vendors = self.filter_factory.get_available_values(4)
+    self.groups = self.filter_factory.get_available_values(10)
+    self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
     self.refresh_data_bindings()
     self.color_rows(self.devices_repeatingpanel)
     self.manual_hostname_label.text = ""
@@ -106,7 +108,7 @@ class SSH(SSHTemplate):
 
   def devices_table_search_text_change(self, **event_args):
     """This method is called when the text in this text area is edited"""
-    
+
     self.filter_dropdown()
     pass
 
@@ -121,8 +123,8 @@ class SSH(SSHTemplate):
 
   def paint_last_cli_connections(self, u):
     if u:
-      print(u["email"])
-      cli_session = anvil.server.call("get_last_cli_connections", u["email"])
+      # print(u["email"])
+      cli_session = anvil.server.call("get_last_cli_connections",u)
 
       for s in cli_session:
         self.u_last_sessions.append(s["host"])
@@ -153,7 +155,7 @@ class SSH(SSHTemplate):
 
   def session_recordings_btn_click(self, **event_args):
     # with Notification("Loading", title="Getting Your Logs", timeout=10):
-    file_names = anvil.server.call("get_sorted_filenames_by_time", self.u["email"])
+    file_names = anvil.server.call("get_sorted_filenames_by_time", anvil.users.get_user()["email"])
     file_names.reverse()
     cp = ColumnPanel()
     for l in file_names:
@@ -244,6 +246,7 @@ class SSH(SSHTemplate):
       anvil.server.call("anvil_force_auth", u)
       print("Cookies are:", u, ip)
       self.cookie_auth = True
+      self.logout_btn.enabled = True
       return True
     else:
       self.cookie_auth = False
@@ -258,23 +261,40 @@ class SSH(SSHTemplate):
       auth_status = "True"
     else:
       auth_status = "False"
+    # self.rich_session_details = f'''
+    # User in Cookies: {u_cookie}
+    # User in webserver: {u}
+    # IP in Cookies: {ip}
+    # Authenticated: {auth_status}
+    # '''
     self.rich_session_details = f'''
-    User in Cookies: {u_cookie}
-    User in webserver: {u}
-    IP in Cookies: {ip}
-    Authenticated: {auth_status}
+    You can greatly help by providing feedbacks.
+    Please, report any issues or ideas to Suhaib.
+    Logged in as: {u_cookie}
+    Logged in from: {ip}
     '''
     
-    self.rich_text_1.content = self.rich_session_details
 
   def refresh_binding_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.update_session_info()
     self.refresh_data_bindings()
     pass
-    
-    
-      
+
+  def get_last_session(self, **event_args):
+    self.last_seessions_rep.items = []
+    self.u_last_sessions = []
+    self.paint_last_cli_connections(anvil.users.get_user()["email"])
+
+  def logout_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    # anvil.server.call('clear_cookies')
+    anvil.users.logout()
+    self.logout_btn.enabled = False
+    self.refresh_data_bindings()
+    anvil.open_form('SSH')
+    pass
+
       
  
       

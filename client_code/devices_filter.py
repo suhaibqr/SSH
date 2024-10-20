@@ -115,20 +115,31 @@ def list_of_lists_to_dicts(keys, list_of_lists, indexes_of_interest):
 
 def filter_list_of_lists_by_strings(list_of_lists, strings_to_match):
     """
-    Filter a list of lists, retaining only the sublists that contain any part of the specified strings.
+    Filter a list of lists, retaining only the sublists that contain all parts of the specified strings,
+    ignoring spaces, and searching only specific indexes.
 
     Parameters:
     list_of_lists (list of lists): A list containing sublists.
     strings_to_match (str): A string of space-separated words to search for in the sublists.
 
     Returns:
-    list of lists: A filtered list containing only the sublists that have any part of the strings to match.
+    list of lists: A filtered list containing only the sublists that have all parts of the strings to match.
     """
-    words_to_match = strings_to_match.lower().split()
+    # Define which indexes of sublists can be searched
+    indexes_of_interest = [0,2,3,4,5,10]  # You can modify this to fit your use case
+
+    # Split the string to match into words, excluding empty strings or spaces
+    words_to_match = [word for word in strings_to_match.lower().split() if word.strip()]
     filtered_list = []
+
     for sublist in list_of_lists:
-        if any(any(word in str(item).lower() for word in words_to_match) for item in sublist):
+        # Ensure all words are matched in the specified items in the sublist
+        if all(
+            any(word in str(sublist[i]).lower().replace(" ", "") for i in indexes_of_interest if i < len(sublist))
+            for word in words_to_match
+        ):
             filtered_list.append(sublist)
+    
     return filtered_list
 
 def check_if_pmp(data, search_value):

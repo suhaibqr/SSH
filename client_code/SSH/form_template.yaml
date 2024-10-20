@@ -26,10 +26,13 @@ components:
     properties: {text: Session Recordings}
     type: Button
   - components:
-    - layout_properties: {grid_position: 'GTIYUA,TRSNFP'}
-      name: last_session_label
-      properties: {align: center, text: Last Sessions}
-      type: Label
+    - data_bindings:
+      - {code: self.cookie_auth, property: enabled, writeback: false}
+      event_bindings: {click: get_last_session}
+      layout_properties: {grid_position: 'WTCEYS,ANLCWG'}
+      name: last_cli_sessions_btn
+      properties: {enabled: true, text: Last Sessions}
+      type: Button
     - data_bindings:
       - {code: self.u_last_sessions, property: items, writeback: false}
       layout_properties: {grid_position: 'MYRCWW,ANIILW'}
@@ -41,6 +44,11 @@ components:
     name: last_sessions_coloumn
     properties: {border: 'color: lighblue', role: null}
     type: ColumnPanel
+  - event_bindings: {click: logout_btn_click}
+    layout_properties: {grid_position: 'NJATBY,ZPZHML'}
+    name: logout_btn
+    properties: {text: Logout}
+    type: Button
   layout_properties: {grid_position: 'ZSNEOA,YLPSTP'}
   name: column_panel_left
   properties: {}
@@ -58,7 +66,7 @@ components:
       type: DropDown
     - components:
       - layout_properties: {expand: false, width: 2000}
-        name: label_1
+        name: customer_drop_down_label
         properties: {align: right, text: Customer}
         type: Label
       - layout_properties: {width: 1}
@@ -162,16 +170,19 @@ components:
       name: devices_table_search_text
       properties: {placeholder: Search Keywords Seprated by Space}
       type: TextBox
-    - layout_properties: {}
+    - layout_properties: {expand: false}
       name: rich_text_1
       properties:
         content: |-
-          Keywords Seperated By Space|
+          Keywords Seperated By Space
           Press ENTER to trigger search
+        format: plain_text
+        spacing_above: none
+        spacing_below: none
       type: RichText
     layout_properties: {grid_position: 'IKIPET,HWSPKP'}
     name: flow_panel_1
-    properties: {}
+    properties: {gap: none, spacing_above: none, spacing_below: none}
     type: FlowPanel
   - components:
     - data_bindings:

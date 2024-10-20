@@ -6,13 +6,13 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 from ...devices_filter import check_if_pmp, wssh_connect, manual_connect
-from .. import filter_factory
+from .. import all_inventory
 import re
 
 class lastsessionstemplate(lastsessionstemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-   
+    
    
     self.init_components(**properties)
     self.add_component(self.create_last_session_button(self.item))
@@ -25,7 +25,7 @@ class lastsessionstemplate(lastsessionstemplateTemplate):
     s_button = anvil.Button(text=str(v), role="raised", icon=None)
     s_button.tag.pmp = 1
     s_button.background = "#28a745"
-    pmp = check_if_pmp(filter_factory.all_lists,v)
+    pmp = check_if_pmp(all_inventory,v)
     if pmp:
       s_button.tag.pmp = True
     else:
