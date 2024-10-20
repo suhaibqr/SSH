@@ -26,22 +26,19 @@ filter_factory = FilterFactory(all_inventory)
 
 class SSH(SSHTemplate):
   def __init__(self, **properties):
-    u , ip = anvil.server.call("get_cookies")
-    if u != "Not Found" and u:
-      anvil.server.call("anvil_force_auth", u)
-      print("Cookies are:", u, ip)
-    else:
-      print("No Auth Cookies")
     
-    
+  
     # Set Form properties and Data Bindings.
+    self.rich_session_details = ""
     self.u_last_sessions = []
     self.ssh_manual_address_txt = "Address"
     # self.ssh_manual_password_txt = "Password"
     self.ssh_manual_username_txt = "Username"
     self.ssh_manual_port_txt = 22
 
-
+    self.keys = ["hostname", "address", "customer", "type","account_list"]
+    self.indexes_of_interest = [0,2,10,3,11]
+    self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
 
 
 
@@ -53,14 +50,12 @@ class SSH(SSHTemplate):
 
 
     
-    self.keys = ["hostname", "address", "customer", "type","account_list"]
-    self.indexes_of_interest = [0,2,10,3,11]
-    self.devices_table = list_of_lists_to_dicts(self.keys,filter_factory.filtered_list,self.indexes_of_interest)
+    
     
     
   
     self.init_components(**properties)
-
+    self.update_session_info()
     # self.saml_user ="suhaib.alrabee@example.com"
     # anvil.server.call("anvil_force_auth", self.saml_user)
     self.u = anvil.users.get_user()
@@ -69,9 +64,13 @@ class SSH(SSHTemplate):
       print("Authenticated")
     else:
       print("UnAuthenticated")
+
+    self.check_auth()
     self.devices_repeatingpanel.items = self.devices_table
     self.paint_last_cli_connections(self.u)
     self.color_rows(self.devices_repeatingpanel)
+    
+    
     # self.refresh_data_bindings()
     # Any code you write here will run before the form opens.
 
@@ -211,7 +210,8 @@ class SSH(SSHTemplate):
 
   def Authenticate_click(self, **event_args):
     """This method is called when the button is clicked"""
-    anvil.js.window.open(f"{wssh_url}/login/saml", "_blank")
+    # anvil.server.call("clear_cookies")
+    anvil.js.window.open(f"{wssh_url}login/saml", "_blank")
     pass
 
   def manual_connect_btn_click(self, **event_args):
@@ -245,7 +245,66 @@ class SSH(SSHTemplate):
     
     
     alert(m, title="Port Status", large=True)
-   
+
+
+  def check_auth(self):
+    u , ip = anvil.server.call("get_cookies")
+    if u != "Not Found" and u:
+      anvil.server.call("anvil_force_auth", u)
+      print("Cookies are:", u, ip)
+      return True
+    else:
+      print("No Auth Cookies")
+      return False
+
+  def update_session_info(self):
+    u_cookie , ip = anvil.server.call("get_cookies")
+    u = anvil.users.get_user()
+    if u:
+      u = u["email"]
+      auth_status = "True"
+    else:
+      auth_status = "False"
+    self.rich_session_details = f'''
+    User in Cookies: {u_cookie}
+    User in webserver: {u}
+    IP in Cookies: {ip}
+    Authenticated: {auth_status}
+    '''
+    
+    self.rich_text_1.content = self.rich_session_details
+
+  def refresh_binding_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.update_session_info()
+    self.refresh_data_bindings()
+    pass
+    
+    
+      
+      
+ 
+      
+
+
+def check_another_function(external_function):
+    def decorator(decorated_function):
+        def wrapper(*args, **kwargs):
+            # Call the external function with the same arguments
+            # Assuming the same args are used for both external_function and decorated_function
+            condition_result = external_function(*args, **kwargs)
+
+            # If the external function returns True, proceed with the decorated function
+            if condition_result:
+                print("Condition is True, proceeding with the function...")
+                return decorated_function(*args, **kwargs)
+            else:
+                # If the external function returns False, execute alternative logic
+                print("Condition is False, executing alternative logic...")
+                return "Alternative logic because the condition was False"
+        
+        return wrapper
+    return decorator
 
 
     

@@ -117,14 +117,21 @@ components:
       properties: {align: left, gap: tiny}
       type: FlowPanel
     - components:
-      - layout_properties: {grid_position: 'KSGOPF,ILKJSE'}
+      - data_bindings:
+        - {code: self.rich_session_details, property: content, writeback: false}
+        layout_properties: {grid_position: 'KSGOPF,ILKJSE'}
         name: session_info_rich
         properties: {}
         type: RichText
-      layout_properties: {grid_position: 'GYABCZ,NTDICZ'}
+      layout_properties: {grid_position: 'GYABCZ,NTDICZ KYGMEO,NEGIMD'}
       name: mid_col_rightside
       properties: {}
       type: ColumnPanel
+    - event_bindings: {click: refresh_binding_btn_click}
+      layout_properties: {grid_position: 'GYABCZ,NTDICZ SLHSAG,YCNJPM'}
+      name: refresh_binding_btn
+      properties: {text: refresh session}
+      type: Button
     - components:
       - layout_properties: {width: 52}
         name: spacer_3

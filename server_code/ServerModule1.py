@@ -31,9 +31,12 @@ def process_jwt(token):
       user_id = decoded_token["sub"]
       print(anvil.server.request.remote_address)
       anvil.server.cookies.shared.set(1, name=user_id, ip=anvil.server.request.remote_address)
+      anvil.users.signup_with_email(user_id,"XXXXXasdjaskldjskdfjlgkjl3jh23k4j2kls;oldf[]asas03042ol",remember= True)
       print(f"Welcome {user_id}, you have successfully logged in to Site-A!")
-      print(anvil.server.cookies.shared.get("ip", "Not Found"))
-      print(anvil.server.cookies.shared.get("name", "Not Found"))
+      user = app_tables.users.get(email=user_id)
+      anvil.users.force_login(user, remember=True)
+      # print(anvil.server.cookies.shared.get("ip", "Not Found"))
+      # print(anvil.server.cookies.shared.get("name", "Not Found"))
       return anvil.server.FormResponse('SSH')
     except jwt.ExpiredSignatureError:
         return "Token has expired"
@@ -43,3 +46,7 @@ def process_jwt(token):
 @anvil.server.callable
 def get_cookies():
   return anvil.server.cookies.shared.get("name", "Not Found"), anvil.server.cookies.shared.get("ip", "Not Found")
+
+@anvil.server.callable
+def clear_cookies():
+  anvil.server.cookies.shared.clear()
