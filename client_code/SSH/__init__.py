@@ -31,9 +31,9 @@ class SSH(SSHTemplate):
     # Set Form properties and Data Bindings.
     self.rich_session_details = ""
     self.u_last_sessions = []
-    self.ssh_manual_address_txt = "Address"
+    self.ssh_manual_address_txt = None
     # self.ssh_manual_password_txt = "Password"
-    self.ssh_manual_username_txt = "Username"
+    self.ssh_manual_username_txt = None
     self.ssh_manual_port_txt = 22
     self.cookie_auth = False
     self.keys = ["hostname", "address", "customer", "type","account_list"]

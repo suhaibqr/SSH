@@ -263,7 +263,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'IWQBGM,AYLICC QFEXOJ,PTSTDZ'}
     name: ssh_manual_port
-    properties: {align: center, placeholder: '22', spacing_above: none, spacing_below: none, text: '22'}
+    properties: {align: center, placeholder: '22', spacing_above: none, spacing_below: none, text: ''}
     type: TextBox
   - data_bindings:
     - {code: self.cookie_auth, property: enabled, writeback: false}
