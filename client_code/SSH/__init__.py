@@ -229,8 +229,12 @@ class SSH(SSHTemplate):
 
   def test_ping_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    r = anvil.server.call("ping_host", self.test_address_box.text)
-    alert(f"Bunker IP:{BUNKER_IP}\nTest Result for pinging {self.test_address_box.text}:\n{r}", title="Ping Result", large=True)
+    if self.test_address_box.text:
+      r = anvil.server.call("ping_host", self.test_address_box.text)
+      alert(f"Bunker IP:{BUNKER_IP}\nTest Result for pinging {self.test_address_box.text}:\n{r}", title="Ping Result", large=True)
+    else:
+      alert("Please Enter an IP Address", large=False, title="Missing Input")
+      
     # print(r)
     # if pingable:
     #   msg = "Reacahble"
@@ -320,7 +324,7 @@ class SSH(SSHTemplate):
   def NSlookup_click(self, **event_args):
     """This method is called when the button is clicked"""
     if not all([self.test_address_box.text, self.test_dns_box.text]):
-        anvil.alert("Please Enter IP and DNS", dismissible=True, large=False, title="Missing Details")
+        anvil.alert("Please Enter Address and DNS server", dismissible=True, large=False, title="Missing Details")
     else:
       r = anvil.server.call("nslookup", self.test_address_box.text,self.test_dns_box.text)
       alert(f"Bunker IP:{BUNKER_IP}\nnslookup for toward {self.test_address_box.text} using DNS: {self.test_dns_box.text}\n{r}", title="Nslookup Result", large=True)
