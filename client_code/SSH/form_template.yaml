@@ -205,15 +205,19 @@ components:
       name: devices_repeatingpanel
       properties: {item_template: SSH.devicerowtemplate}
       type: RepeatingPanel
+    event_bindings: {}
     layout_properties: {grid_position: 'XLIHZV,ROSKZI'}
     name: device_datagrid
     properties:
+      auto_header: true
       columns:
       - {data_key: hostname, expand: false, id: JKSDUP, title: Hostname, width: 163}
       - {data_key: address, expand: false, id: VJQQOR, title: Address, width: 136}
       - {data_key: customer, expand: false, id: VJWNTS, title: Customer, width: 168}
       - {data_key: type, expand: false, id: OJLQEN, title: Type, width: 112}
       - {data_key: task, id: HOQVRS, title: Tasks}
+      rows_per_page: 40
+      show_page_controls: true
     type: DataGrid
   layout_properties: {full_width_row: false, grid_position: 'ZSNEOA,VKTOVA'}
   name: middle_col
