@@ -338,6 +338,6 @@ components:
   properties: {border: ''}
   type: ColumnPanel
 container:
-  properties: {background: '#c1e2e1', col_spacing: tiny, col_widths: '{"YLPSTP":10,"VKTOVA":60,"TUSVNZ":10}', foreground: '#786d6d', visible: true, wrap_on: never}
+  properties: {background: '#c1e2e1', col_spacing: tiny, col_widths: '{"YLPSTP":10,"VKTOVA":65,"TUSVNZ":5}', foreground: '#786d6d', visible: true, wrap_on: never}
   type: ColumnPanel
 is_package: true
