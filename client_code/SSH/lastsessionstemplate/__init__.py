@@ -27,7 +27,10 @@ class lastsessionstemplate(lastsessionstemplateTemplate):
     s_button.background = "#28a745"
     pmp = check_if_pmp(all_inventory,v)
     if pmp:
-      s_button.tag.pmp = True
+      s_button.tag.pmp = True  
+      s_button.background = "#909845"
+      s_button.tag.hostname = v
+      s_button.set_event_handler('click',wssh_connect )
     else:
       s_button.tag.pmp = False
     return s_button
