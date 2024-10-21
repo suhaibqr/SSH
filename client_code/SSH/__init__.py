@@ -211,21 +211,24 @@ class SSH(SSHTemplate):
 
   def Authenticate_click(self, **event_args):
     """This method is called when the button is clicked"""
-    anvil.js.window.open(f"{wssh_url}login/saml", "_blank")
+    anvil.js.window.open(f"{wssh_url}login/saml", "_self")
+    
     pass
 
   def manual_connect_btn_click(self, **event_args):
-    byte_string = self.ssh_manual_password.text.encode('utf-8')
-
-    base64_encoded = base64.b64encode(byte_string)
-    base64_encoded_string = base64_encoded.decode('utf-8')
-    url = f"{wssh_url}?hostname={self.ssh_manual_address.text}&username={self.ssh_manual_username.text}&password={base64_encoded_string}"
-    anvil.js.window.open(url, "_blank")
+    if all([self.ssh_manual_address.text,self.ssh_manual_username.text,self.ssh_manual_password.text]):
+      byte_string = self.ssh_manual_password.text.encode('utf-8')
+      base64_encoded = base64.b64encode(byte_string)
+      base64_encoded_string = base64_encoded.decode('utf-8')
+      url = f"{wssh_url}?hostname={self.ssh_manual_address.text}&username={self.ssh_manual_username.text}&password={base64_encoded_string}"
+      anvil.js.window.open(url, "_blank")
+    else:
+      anvil.alert("Please Enter Address, Username, and Password", dismissible=True, large=False, title="Missing Details")
 
   def test_ping_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     r = anvil.server.call("ping_host", self.test_address_box.text)
-    alert(f"Test Result for pinging {self.test_address_box.text}:\n{r}", title="Ping Result", large=True)
+    alert(f"Bunker IP:{BUNKER_IP}\nTest Result for pinging {self.test_address_box.text}:\n{r}", title="Ping Result", large=True)
     # print(r)
     # if pingable:
     #   msg = "Reacahble"
@@ -280,6 +283,8 @@ class SSH(SSHTemplate):
     You can greatly help by providing
     feedbacks. Please, report any issues 
     or ideas to the team.
+    
+    Server Location: TDM Vertus 10.215.10.215
     Logged in as: {u_cookie}
     Logged in from: {ip}
     '''

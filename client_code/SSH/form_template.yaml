@@ -209,7 +209,6 @@ components:
     layout_properties: {grid_position: 'XLIHZV,ROSKZI'}
     name: device_datagrid
     properties:
-      auto_header: true
       columns:
       - {data_key: hostname, expand: false, id: JKSDUP, title: Hostname, width: 163}
       - {data_key: address, expand: false, id: VJQQOR, title: Address, width: 136}
