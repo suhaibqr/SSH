@@ -10,7 +10,7 @@ components:
     event_bindings: {click: automater_btn_click}
     layout_properties: {grid_position: 'OQCHTS,LRUUHK THFVTE,OGQMQF'}
     name: automater_btn
-    properties: {text: Automater}
+    properties: {text: Other Tools Coming Soon}
     type: Button
   - data_bindings:
     - {code: self.cookie_auth, property: enabled, writeback: false}

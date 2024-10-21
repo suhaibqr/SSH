@@ -67,7 +67,7 @@ class devicerowtemplate(devicerowtemplateTemplate):
     test_btn.tag.hostname = self.item["hostname"]
     test_btn.tag.ip = self.item["address"]
     test_btn.tag.port = 22
-    test_btn.background = "#25a945"
+    # test_btn.background = "#25a945"
     test_btn.set_event_handler('click',device_table_test_connection)
     self.tasks_flow_panel.add_component(test_btn)
       

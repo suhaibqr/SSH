@@ -147,7 +147,9 @@ class SSH(SSHTemplate):
     self.all_current_sessions = "Active Sessions:\n"
     for s in ss:
       u = s[0].split("@")[0]
-      self.all_current_sessions = self.all_current_sessions + f"{u}:{s[2][0]}\n" 
+      self.all_current_sessions = self.all_current_sessions + f"{u}:{s[2][0]}\n"
+    if len(ss) == 0:
+      self.all_current_sessions = "Active Sessions:\nThere Are No Active Sessions"
     alert(content=self.all_current_sessions,
                title="Current Active Sessions",
                large=True,
