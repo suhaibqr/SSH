@@ -310,8 +310,11 @@ class SSH(SSHTemplate):
 
   def NSlookup_click(self, **event_args):
     """This method is called when the button is clicked"""
-    r = anvil.server.call("nslookup", self.test_address_box.text,self.test_dns_box.text)
-    alert(r, title="Nslookup Result", large=True)
+    if not self.test_dns_box.text:
+      anvil.alert("Please Enter the DNS that will be used for nslookup", dismissible=True, large=False, title="Missing DNS Address")
+    else:
+      r = anvil.server.call("nslookup", self.test_address_box.text,self.test_dns_box.text)
+      alert(r, title="Nslookup Result", large=True)
    
 
  

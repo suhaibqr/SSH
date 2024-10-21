@@ -30,6 +30,7 @@ dependencies:
 - dep_id: dep_372b4m9kxo9bje
   resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
   version: {version_tag: v3.0.0}
+metadata: {logo_img: null}
 name: SSH
 package_name: SSH
 runtime_options:
