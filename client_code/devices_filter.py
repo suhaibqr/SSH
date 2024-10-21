@@ -157,8 +157,8 @@ def check_if_pmp(data, search_value):
     """
     for sublist in data:
       # print(sublist[11])
-      if (sublist[5].lower() == search_value.lower() or sublist[0].lower() == search_value.lower()) and (sublist[11] != "None" or sublist[5] is not None):
-        # print(sublist[11])
+      if (sublist[5].lower() == search_value.lower() or sublist[0].lower() == search_value.lower()) and (sublist[11] != "None" and sublist[11] is not None):
+        # print(type(sublist[11]))
         return True
     return False
 
@@ -169,6 +169,7 @@ def wssh_connect(**args):
   anvil.js.window.open(url, "_blank")
 
 def manual_connect(**args):
+  print("xxx", "hostname: ",args['sender'].tag.hostname, "add: ", args['sender'].tag.address )
   f = anvil.get_open_form()
   f.manual_hostname_label.text = args['sender'].tag.hostname
   f.ssh_manual_address.text = args['sender'].tag.address

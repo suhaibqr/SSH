@@ -14,6 +14,7 @@ from ...devices_filter import wssh_connect, manual_connect , device_table_test_c
 class devicerowtemplate(devicerowtemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    
     self.tasks_flow_panel.clear()
     self.init_components(**properties)
     # print(self.get_components())

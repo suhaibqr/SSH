@@ -6,7 +6,6 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 from ...devices_filter import check_if_pmp, wssh_connect, manual_connect
-from .. import all_inventory
 import re
 
 class lastsessionstemplate(lastsessionstemplateTemplate):
@@ -18,14 +17,16 @@ class lastsessionstemplate(lastsessionstemplateTemplate):
     self.add_component(self.create_last_session_button(self.item))
 
 
-  def create_last_session_button(self, h):
-   
-    v = re.search(r"'(.*?)'", h).group(1)
-  
+  def create_last_session_button(self, i):
+    
+    all_inventory = i["all_inventory"] 
+    v = re.search(r"'(.*?)'", i["hostname"]).group(1)
+    
     s_button = anvil.Button(text=str(v), role="raised", icon=None)
-    s_button.tag.pmp = 1
-    s_button.background = "#28a745"
+    ip = ""
     pmp = check_if_pmp(all_inventory,v)
+    # print(all_inventory)
+    # print(pmp, v)
     if pmp:
       s_button.tag.pmp = True  
       s_button.background = "#909845"
@@ -33,9 +34,24 @@ class lastsessionstemplate(lastsessionstemplateTemplate):
       s_button.set_event_handler('click',wssh_connect )
     else:
       s_button.tag.pmp = False
+      s_button.tag.hostname = v
+      for sublist in all_inventory:
+        if sublist[2] == v or sublist[0] == v  :
+          ip = sublist[2]
+          print("Found", sublist[0], v)
+          
+      # print(ip)
+      s_button.tag.address = ip
+      s_button.set_event_handler('click',manual_connect)
+      
     return s_button
 
 
 
 
     # Any code you write here will run before the form opens.
+# def get_item(input_value, data):
+#     for sublist in data:
+#         if sublist[0] == input_value and len(sublist) > 3:
+#             return sublist[2]
+#     return None

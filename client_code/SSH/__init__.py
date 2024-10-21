@@ -8,10 +8,11 @@ from ..devices_filter import FilterFactory , list_of_lists_to_dicts,filter_list_
 from anvil_extras.utils import auto_refreshing
 import anvil.users
 import anvil.js.window
-
+import base64
 
 
 all_inventory = []
+
 
 def error_handler(err):
   n = Notification("Please inform Suhaib about this", title="Server issue", timeout=2)
@@ -26,7 +27,7 @@ set_default_error_handling(error_handler)
 class SSH(SSHTemplate):
   global all_inventory
   def __init__(self, **properties):
-    
+    self.all_inventory = []
     # Set Form properties and Data Bindings.
     self.rich_session_details = ""
     self.u_last_sessions = []
@@ -67,9 +68,11 @@ class SSH(SSHTemplate):
     
     
     if is_auth:
-      all_inventory = anvil.server.call("inventory_from_database")
-      self.filter_factory = FilterFactory(all_inventory)
-      all_inventory = self.filter_factory.all_lists
+      print(self.all_inventory)
+      self.all_inventory = anvil.server.call("inventory_from_database")
+      all_inventory = self.all_inventory #just to fill the global variable for repeATING templates
+      self.filter_factory = FilterFactory(self.all_inventory)
+      self.all_inventory = self.filter_factory.all_lists
       self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
       self.types, self.vendors, self.groups = self.filter_factory.get_available_values_for_indexes([3,4,10])
     
@@ -130,12 +133,13 @@ class SSH(SSHTemplate):
       cli_session = anvil.server.call("get_last_cli_connections",u)
 
       for s in cli_session:
-        self.u_last_sessions.append(s["host"])
+        self.u_last_sessions.append({"all_inventory": self.all_inventory, "hostname": s["host"]})
         
      
       self.last_seessions_rep.items = self.u_last_sessions
       
-    
+
+  
         
 
   def active_sessions_btn_click(self, **event_args):
@@ -213,7 +217,6 @@ class SSH(SSHTemplate):
   def manual_connect_btn_click(self, **event_args):
     byte_string = self.ssh_manual_password.text.encode('utf-8')
 
-
     base64_encoded = base64.b64encode(byte_string)
     base64_encoded_string = base64_encoded.decode('utf-8')
     url = f"{wssh_url}?hostname={self.ssh_manual_address.text}&username={self.ssh_manual_username.text}&password={base64_encoded_string}"
@@ -271,7 +274,7 @@ class SSH(SSHTemplate):
     # Authenticated: {auth_status}
     # '''
     self.rich_session_details = f'''
-    Built with <3 by Network Team,
+    Built with <3 by TDM's Network Team,
     You can greatly help by providing
     feedbacks, Please, report any issues 
     or ideas to the team.
@@ -340,6 +343,7 @@ def check_another_function(external_function):
 
     
    
-
+def get_all_inventory():
+  return all_inventory
 
 
