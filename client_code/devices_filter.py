@@ -114,7 +114,7 @@ def list_of_lists_to_dicts(keys, list_of_lists, indexes_of_interest):
         list_of_dicts.append(dictionary)
     return list_of_dicts
 
-def filter_list_of_lists_by_strings(list_of_lists, strings_to_match):
+def filter_list_of_lists_by_strings(list_of_lists, strings_to_match, indexes_of_interest):
     """
     Filter a list of lists, retaining only the sublists that contain all parts of the specified strings,
     ignoring spaces, and searching only specific indexes.
@@ -127,7 +127,7 @@ def filter_list_of_lists_by_strings(list_of_lists, strings_to_match):
     list of lists: A filtered list containing only the sublists that have all parts of the strings to match.
     """
     # Define which indexes of sublists can be searched
-    indexes_of_interest = [0,2,3,4,5,10]  # You can modify this to fit your use case
+    # indexes_of_interest = [0,2,3,4,5,10]  # You can modify this to fit your use case
 
     # Split the string to match into words, excluding empty strings or spaces
     words_to_match = [word for word in strings_to_match.lower().split() if word.strip()]

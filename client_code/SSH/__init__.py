@@ -89,7 +89,8 @@ class SSH(SSHTemplate):
      
     
     if self.devices_table_search_text.text != "":
-      self.filter_factory.filtered_list = filter_list_of_lists_by_strings(self.filter_factory.filtered_list, self.devices_table_search_text.text)
+      indexes_of_interest = [0,2,3,4,5,10]
+      self.filter_factory.filtered_list = filter_list_of_lists_by_strings(self.filter_factory.filtered_list, self.devices_table_search_text.text, indexes_of_interest)
     self.devices_table = list_of_lists_to_dicts(self.keys,self.filter_factory.filtered_list,self.indexes_of_interest)
 
     
